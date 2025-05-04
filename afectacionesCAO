@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afectaciones CAO - Diners Club Ecuador</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #001f3f 0%, #003366 100%);
+            color: white;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff6b00, #ff8533);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #ffffff, #ff6b00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .main-container {
+            flex: 1;
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .btn-back {
+            background: linear-gradient(135deg, #ff6b00, #ff8533);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            background: rgba(0, 0, 0, 0.3);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            color: #ff6b00;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        td {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .service-details {
+            margin: 5px 0;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+        }
+
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .footer {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .table-container {
+                overflow-x: auto;
+            }
+            
+            td, th {
+                white-space: nowrap;
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #22c55e;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transform: translateY(-100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">DC</div>
+            <div>
+                <h1>Afectaciones del CAO</h1>
+                <div class="subtitle">Servicios / Conexiones CAO</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <button onclick="window.location.href='index.html'" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Volver al Portal
+        </button>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>SERVICIOS</th>
+                        <th>DETALLE</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>DATAFAST VISA-MC</td>
+                        <td>
+                            <div class="service-details">Transacciones locales de Débito y Crédito con Visa en red propia</div>
+                            <div class="service-details">Transacciones locales de Crédito con MasterCard en red propia</div>
+                        </td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'DATAFAST VISA-MC: Transacciones locales de Débito y Crédito con Visa en red propia. Transacciones locales de Crédito con MasterCard en red propia')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>DATAFAST DINERS-DC</td>
+                        <td>
+                            <div class="service-details">Transacciones locales de Débito y Crédito con Diners en red propia</div>
+                            <div class="service-details">Transacciones locales de Crédito con Discover en red propia</div>
+                        </td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'DATAFAST DINERS-DC: Transacciones locales de Débito y Crédito con Diners en red propia. Transacciones locales de Crédito con Discover en red propia')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>BANRED (PAGO A TARJETA DE CRÉDITO)</td>
+                        <td>Transacciones con Tarjetas de Crédito, cuentas corrientes y cuentas de ahorro entre Bancos Asociados miembros de BANRED</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'BANRED (PAGO A TARJETA DE CRÉDITO): Transacciones con Tarjetas de Crédito, cuentas corrientes y cuentas de ahorro entre Bancos Asociados miembros de BANRED')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>BANRED BASE 24 (DÉBITOS)</td>
+                        <td>Transacciones con Tarjetas de Débito Banco Pichincha y Bancos Asociados miembros de BANRED</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'BANRED BASE 24 (DÉBITOS): Transacciones con Tarjetas de Débito Banco Pichincha y Bancos Asociados miembros de BANRED')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>BANRED BASE 25 (ATM - TARJETAS DE CRÉDITO)</td>
+                        <td>Transacciones con Tarjetas de Crédito Banco Pichincha y Bancos Asociados miembros de BANRED</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'BANRED BASE 25 (ATM - TARJETAS DE CRÉDITO): Transacciones con Tarjetas de Crédito Banco Pichincha y Bancos Asociados miembros de BANRED')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>USP ATALLA</td>
+                        <td>Validación de datos de tarjetas propias de Débito y Crédito</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'USP ATALLA: Validación de datos de tarjetas propias de Débito y Crédito')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>BANCO PICHINCHA EFECTIVO EXPRESS</td>
+                        <td>Avances en Efectivo por ventanilla de Banco Pichincha</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'BANCO PICHINCHA EFECTIVO EXPRESS: Avances en Efectivo por ventanilla de Banco Pichincha')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>DINERS CLUB INTERNACIONAL 1</td>
+                        <td>
+                            <div class="service-details">Transacciones de Crédito con tarjetas propias Diners/Discover en red ajena</div>
+                            <div class="service-details">Transacciones de Crédito con tarjetas ajenas Diners/Discover en red propia</div>
+                        </td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'DINERS CLUB INTERNACIONAL 1: Transacciones de Crédito con tarjetas propias Diners/Discover en red ajena. Transacciones de Crédito con tarjetas ajenas Diners/Discover en red propia')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>DINERS CLUB INTERNACIONAL 2</td>
+                        <td>
+                            <div class="service-details">Transacciones de Crédito con tarjetas propias Diners/Discover en red ajena</div>
+                            <div class="service-details">Transacciones de Crédito con tarjetas ajenas Diners/Discover en red propia</div>
+                        </td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'DINERS CLUB INTERNACIONAL 2: Transacciones de Crédito con tarjetas propias Diners/Discover en red ajena. Transacciones de Crédito con tarjetas ajenas Diners/Discover en red propia')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>PULSE / DISCOVER FS</td>
+                        <td>Transacciones con tarjetas ajenas Diners y Discover en cajeros automáticos autorizados</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'PULSE / DISCOVER FS: Transacciones con tarjetas ajenas Diners y Discover en cajeros automáticos autorizados')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>LLAVES DCI</td>
+                        <td>Intercambios de llaves con franquicias DCI / Discover</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'LLAVES DCI: Intercambios de llaves con franquicias DCI / Discover')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>VISA INTERNACIONAL EMISIÓN</td>
+                        <td>Transacciones de Débito y Crédito con tarjetas propias en red ajena</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'VISA INTERNACIONAL EMISIÓN: Transacciones de Débito y Crédito con tarjetas propias en red ajena')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>VISA INTERNACIONAL ADQUIRENCIA</td>
+                        <td>Transacciones de Crédito con tarjetas ajenas en red propia</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'VISA INTERNACIONAL ADQUIRENCIA: Transacciones de Crédito con tarjetas ajenas en red propia')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>MASTERCARD INTERNACIONAL MCI</td>
+                        <td>Transacciones de Crédito con tarjetas propias en red ajena</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'MASTERCARD INTERNACIONAL MCI: Transacciones de Crédito con tarjetas propias en red ajena')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>MASTERCARD INTERNACIONAL MDS</td>
+                        <td>Transacciones de Crédito con tarjetas ajenas en red propia</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'MASTERCARD INTERNACIONAL MDS: Transacciones de Crédito con tarjetas ajenas en red propia')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>BROKER</td>
+                        <td>Avances de efectivo en Cajeros ATM sin Tarjeta de Crédito</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'BROKER: Avances de efectivo en Cajeros ATM sin Tarjeta de Crédito')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>JARDÍN AZUAYO</td>
+                        <td>Transacciones de Débito Visa de Cooperativa Jardín Azuayo</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'JARDÍN AZUAYO: Transacciones de Débito Visa de Cooperativa Jardín Azuayo')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>DOCK (EN PROCESO DE IMPLEMENTACIÓN)</td>
+                        <td>Transacciones de Débito Banco Diners Club del Ecuador</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'DOCK (EN PROCESO DE IMPLEMENTACIÓN): Transacciones de Débito Banco Diners Club del Ecuador')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                    <tr>
+                        <td>BPC-BP</td>
+                        <td>Transacciones con Tarjeta Prepago de Transporte Banco Pichincha</td>
+                        <td><button class="btn-copy" onclick="copyToClipboard(this, 'BPC-BP: Transacciones con Tarjeta Prepago de Transporte Banco Pichincha')"><i class="fas fa-copy"></i> Copiar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Diners Club Ecuador - Grupo de Monitoreo</p>
+        <p>Todos los derechos reservados | Desarrollado por Luis Herrera Lara</p>
+    </footer>
+
+    <div id="notification" class="notification">¡Texto copiado!</div>
+
+    <script>
+        function copyToClipboard(button, text) {
+            // Crear un elemento temporal para copiar el texto
+            const tempTextArea = document.createElement("textarea");
+            tempTextArea.value = text;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            
+            try {
+                document.execCommand('copy');
+                
+                // Cambiar el texto y estilo del botón
+                const originalContent = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check"></i> Copiado';
+                button.classList.add('copied');
+                
+                // Mostrar notificación
+                const notification = document.getElementById('notification');
+                notification.classList.add('show');
+                
+                // Restaurar el botón después de 2 segundos
+                setTimeout(function() {
+                    button.innerHTML = originalContent;
+                    button.classList.remove('copied');
+                    notification.classList.remove('show');
+                }, 2000);
+            } catch (err) {
+                console.error('Error al copiar: ', err);
+                alert('Error al copiar el texto');
+            }
+            
+            document.body.removeChild(tempTextArea);
+        }
+
+        // Animación de entrada para la tabla
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach((row, index) => {
+                row.style.opacity = '0';
+                row.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    row.style.transition = 'all 0.5s ease';
+                    row.style.opacity = '1';
+                    row.style.transform = 'translateY(0)';
+                }, index * 50);
+            });
+        });
+    </script>
+</body>
+</html>

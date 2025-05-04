@@ -14,7 +14,6 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #001f3f 0%, #003366 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -22,6 +21,29 @@
             overflow-x: hidden;
         }
 
+        /* Video de fondo */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* Overlay para mejorar legibilidad */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,31,63,0.92) 0%, rgba(0,51,102,0.88) 100%);
+            z-index: -1;
+        }
+
+        /* Patrón de puntos sobre el video */
         body::before {
             content: '';
             position: absolute;
@@ -32,16 +54,19 @@
             background-image: radial-gradient(circle at 1px 1px, rgba(255, 107, 0, 0.15) 1px, transparent 0);
             background-size: 40px 40px;
             pointer-events: none;
+            z-index: 1;
         }
 
         .header {
-            background: linear-gradient(90deg, #001f3f 0%, #003366 50%, #001f3f 100%);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
             color: white;
             padding: 30px 0;
             text-align: center;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
             position: relative;
             overflow: hidden;
+            z-index: 2;
         }
 
         .header::before {
@@ -71,7 +96,7 @@
         .logo {
             width: 50px;
             height: 50px;
-            background: #ff6b00;
+            background: linear-gradient(135deg, #ff6b00, #ff8533);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -79,6 +104,7 @@
             font-weight: bold;
             font-size: 20px;
             color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
         }
 
         h1 {
@@ -89,7 +115,7 @@
             background: linear-gradient(90deg, #ffffff, #ff6b00);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            text-shadow: 0 0 30px rgba(255, 107, 0, 0.3);
         }
 
         .subtitle {
@@ -97,7 +123,7 @@
             color: #ffffff;
             margin-top: 10px;
             font-weight: 500;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .main-container {
@@ -106,33 +132,36 @@
             justify-content: center;
             align-items: center;
             padding: 40px 20px;
+            z-index: 2;
         }
 
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
             max-width: 1200px;
             width: 100%;
         }
 
         .tool-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 30px;
             text-align: center;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .tool-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+            border-color: rgba(255, 107, 0, 0.3);
         }
 
         .tool-card::before {
@@ -147,9 +176,10 @@
 
         .tool-icon {
             font-size: 3.5rem;
-            color: #003366;
+            color: #ffffff;
             margin-bottom: 20px;
             transition: all 0.3s ease;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
         }
 
         .tool-card:hover .tool-icon {
@@ -162,54 +192,29 @@
         }
 
         .tool-card.active:hover .tool-icon {
-            color: #ffffff;
+            color: #ff8533;
         }
 
         .tool-title {
             font-size: 1.5rem;
-            color: #333;
+            color: #ffffff;
             margin-bottom: 10px;
             font-weight: 600;
         }
 
         .tool-description {
-            color: #666;
+            color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
         }
 
         .tool-card.active {
-            background: linear-gradient(135deg, #003366, #004080);
-            color: white;
+            background: rgba(255, 107, 0, 0.1);
             border: 1px solid rgba(255, 107, 0, 0.3);
-        }
-
-        .tool-card.active .tool-icon,
-        .tool-card.active .tool-title,
-        .tool-card.active .tool-description {
-            color: white;
         }
 
         .tool-card.active::before {
             background: linear-gradient(90deg, #ff6b00, #ff8533);
             height: 5px;
-        }
-
-        .footer {
-            background: #002244;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
         }
 
         .status-indicator {
@@ -221,27 +226,48 @@
             border-radius: 50%;
             background: #22c55e;
             box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+            animation: pulse 2s infinite;
         }
 
-        .tool-card.inactive .status-indicator {
-            background: #eab308;
-            box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.2);
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
         }
 
-        .coming-soon {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: #ff6b00;
+        .footer {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
             color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 2;
+        }
+
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Video de fondo - AQUÍ VA TU VIDEO -->
+    <video autoplay muted loop playsinline class="video-background">
+        <source src="tu-video.mp4" type="video/mp4">
+        <!-- Fallback para navegadores que no soporten video -->
+        Tu navegador no soporta el elemento video.
+    </video>
+    
+    <!-- Overlay para mejorar legibilidad -->
+    <div class="video-overlay"></div>
+
     <header class="header">
         <div class="logo-container">
             <div class="logo">DC</div>
@@ -254,7 +280,7 @@
 
     <main class="main-container">
         <div class="tools-grid">
-            <!-- Columna Izquierda -->
+            <!-- Comunicados WhatsApp -->
             <div class="tool-card active" onclick="window.location.href='https://generador-comunicados.netlify.app'">
                 <div class="status-indicator"></div>
                 <i class="fab fa-whatsapp tool-icon"></i>
@@ -262,6 +288,7 @@
                 <p class="tool-description">Genere notificaciones de incidentes optimizadas para grupos de WhatsApp del banco.</p>
             </div>
 
+            <!-- Comunicados Email -->
             <div class="tool-card active" onclick="window.location.href='https://generadocomunicadoscorreo.netlify.app'">
                 <div class="status-indicator"></div>
                 <i class="fas fa-envelope tool-icon"></i>
@@ -269,65 +296,12 @@
                 <p class="tool-description">Cree comunicados formales de incidentes para distribución por correo electrónico.</p>
             </div>
 
-            <div class="tool-card" onclick="window.location.href='#reportes'">
+            <!-- Afectaciones CAO -->
+            <div class="tool-card active" onclick="window.location.href='afectaciones-cao.html'">
                 <div class="status-indicator"></div>
-                <i class="fas fa-chart-line tool-icon"></i>
-                <h2 class="tool-title">Dashboard de Monitoreo</h2>
-                <p class="tool-description">Visualice en tiempo real el estado de todos los sistemas bancarios.</p>
-            </div>
-
-            <div class="tool-card" onclick="window.location.href='#alertas'">
-                <div class="status-indicator"></div>
-                <i class="fas fa-bell tool-icon"></i>
-                <h2 class="tool-title">Sistema de Alertas</h2>
-                <p class="tool-description">Configure y gestione alertas automáticas para eventos críticos.</p>
-            </div>
-
-            <div class="tool-card inactive" onclick="alert('Herramienta en desarrollo')">
-                <div class="coming-soon">Próximamente</div>
-                <div class="status-indicator"></div>
-                <i class="fas fa-database tool-icon"></i>
-                <h2 class="tool-title">Base de Conocimiento</h2>
-                <p class="tool-description">Acceda a documentación técnica y procedimientos.</p>
-            </div>
-
-            <!-- Columna Derecha -->
-            <div class="tool-card" onclick="window.location.href='#incidencias'">
-                <div class="status-indicator"></div>
-                <i class="fas fa-ticket-alt tool-icon"></i>
-                <h2 class="tool-title">Gestión de Incidencias</h2>
-                <p class="tool-description">Registre y haga seguimiento de incidencias y tickets.</p>
-            </div>
-
-            <div class="tool-card" onclick="window.location.href='#calendario'">
-                <div class="status-indicator"></div>
-                <i class="fas fa-calendar-alt tool-icon"></i>
-                <h2 class="tool-title">Calendario de Eventos</h2>
-                <p class="tool-description">Planifique mantenimientos y actualizaciones programadas.</p>
-            </div>
-
-            <div class="tool-card inactive" onclick="alert('Herramienta en desarrollo')">
-                <div class="coming-soon">Próximamente</div>
-                <div class="status-indicator"></div>
-                <i class="fas fa-users tool-icon"></i>
-                <h2 class="tool-title">Gestión de Contactos</h2>
-                <p class="tool-description">Administre contactos de emergencia y proveedores.</p>
-            </div>
-
-            <div class="tool-card inactive" onclick="alert('Herramienta en desarrollo')">
-                <div class="coming-soon">Próximamente</div>
-                <div class="status-indicator"></div>
-                <i class="fas fa-cogs tool-icon"></i>
-                <h2 class="tool-title">Automatización</h2>
-                <p class="tool-description">Configure workflows y procesos automatizados.</p>
-            </div>
-
-            <div class="tool-card inactive" onclick="alert('Herramienta en desarrollo')">
-                <div class="coming-soon">Próximamente</div>
-                <div class="status-indicator"></div>
-                <i class="fas fa-shield-alt tool-icon"></i>
-                <h2 class="tool-title">Centro de Seguridad</h2>
-                <p class="tool-description">Monitoree la seguridad y compliance de los sistemas.</p>
+                <i class="fas fa-exclamation-triangle tool-icon"></i>
+                <h2 class="tool-title">Afectaciones del CAO</h2>
+                <p class="tool-description">Consulte las afectaciones actuales en servicios y conexiones del Centro Autorizador On-line.</p>
             </div>
         </div>
     </main>
